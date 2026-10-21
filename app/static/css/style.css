@@ -1,0 +1,58 @@
+:root {
+    --marron-oscuro: #3B2418;
+    --cafe-tostado: #6F4E37;
+    --beige: #F3E8D3;
+    --crema: #FAF7F0;
+    --verde-natural: #556B2F;
+    --blanco: #FFFFFF;
+}
+
+body {
+    background-color: var(--crema);
+    color: var(--marron-oscuro);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+navbar, .navbar {
+    background-color: var(--marron-oscuro) !important;
+}
+
+.navbar-brand, .nav-link {
+    color: var(--beige) !important;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    color: var(--blanco) !important;
+}
+
+.btn-cafe {
+    background-color: var(--cafe-tostado);
+    color: var(--blanco);
+    border: none;
+    transition: background 0.3s ease;
+}
+
+.btn-cafe:hover {
+    background-color: var(--marron-oscuro);
+    color: var(--blanco);
+}
+
+.card-producto {
+    border: 1px solid var(--beige);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-producto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(59, 36, 24, 0.15);
+}
+
+footer {
+    background-color: var(--marron-oscuro);
+    color: var(--beige);
+    padding: 2rem 0;
+    margin-top: 3rem;
+}

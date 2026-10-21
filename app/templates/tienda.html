@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Tienda - Café Aroma{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="fw-bold" style="color: #3B2418;">Catálogo de Cafés</h1>
+            <p class="text-muted">Explora nuestra selección completa de café colombiano</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Filtros laterales -->
+        <div class="col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm p-4 rounded-4">
+                <h5 class="fw-bold mb-3" style="color: #3B2418;">Filtrar Productos</h5>
+                <form method="GET" action="{{ url_for('shop.tienda') }}">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Buscar</label>
+                        <input type="text" name="q" class="form-control" value="{{ request.args.get('q', '') }}" placeholder="Nombre del café...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Categoría</label>
+                        <select name="categoria" class="form-select">
+                            <option value="">Todas las categorías</option>
+                            {% for cat in categorias %}
+                                <option value="{{ cat.id }}" {% if request.args.get('categoria')|int == cat.id %}selected{% endif %}>{{ cat.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Ordenar por</label>
+                        <select name="orden" class="form-select">
+                            <option value="">Por defecto</option>
+                            <option value="precio_asc" {% if request.args.get('orden') == 'precio_asc' %}selected{% endif %}>Precio: Menor a Mayor</option>
+                            <option value="precio_desc" {% if request.args.get('orden') == 'precio_desc' %}selected{% endif %}>Precio: Mayor a Menor</option>
+                            <option value="nombre" {% if request.args.get('orden') == 'nombre' %}selected{% endif %}>Nombre (A-Z)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-cafe w-100 mt-2">Aplicar Filtros</button>
+                    <a href="{{ url_for('shop.tienda') }}" class="btn btn-outline-secondary w-100 mt-2">Limpiar Filtros</a>
+                </form>
+            </div>
+        </div>
+
+        <!-- Listado de productos -->
+        <div class="col-lg-9">
+            <div class="row g-4">
+                {% if productos %}
+                    {% for producto in productos %}
+                    <div class="col-md-4">
+                        <div class="card card-producto h-100 rounded-4 shadow-sm">
+                            <div class="position-relative">
+                                <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=400&q=80" class="card-img-top rounded-top-4" alt="{{ producto.nombre }}" style="height: 200px; object-fit: cover;">
+                                <span class="position-absolute top-0 end-0 m-3 badge bg-secondary">{{ producto.peso }}</span>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h6 class="card-title fw-bold text-dark">{{ producto.nombre }}</h6>
+                                <p class="card-text text-muted small flex-grow-1">{{ producto.descripcion[:70] }}...</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fw-bold text-success">${{ "{:,.0f}".format(producto.precio) }} COP</span>
+                                    <a href="{{ url_for('shop.detalle_producto', id=producto.id) }}" class="btn btn-outline-dark btn-sm rounded-pill px-3">Ver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center py-5 bg-white rounded-4 shadow-sm">
+                        <p class="text-muted fs-5">No se encontraron productos con los filtros seleccionados.</p>
+                        <a href="{{ url_for('shop.tienda') }}" class="btn btn-cafe btn-sm mt-2">Ver todo el catálogo</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
