@@ -4,9 +4,9 @@ from app import create_app, db
 app = create_app()
 
 
-@app.route("/health")
-def health():
-    return {"status": "ok"}, 200
+@app.route('/health')
+def health_check():
+    return "OK", 200
 
 
 if __name__ == "__main__":
