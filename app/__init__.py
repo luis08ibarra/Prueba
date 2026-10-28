@@ -15,6 +15,10 @@ def create_app(config_class=Config):
     def load_user(user_id):
         return Usuario.query.get(int(user_id))
 
+    # --- CREAR LAS TABLAS AUTOMÁTICAMENTE ---
+    with app.app_context():
+        db.create_all()
+
     # Registrar Blueprints
     from app.main.routes import main_bp
     from app.auth.routes import auth_bp
