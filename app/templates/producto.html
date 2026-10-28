@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ producto.nombre }} - Café Aroma{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row bg-white p-4 p-md-5 rounded-4 shadow-sm align-items-center">
+        <!-- Imagen del producto -->
+        <div class="col-md-6 mb-4 mb-md-0">
+            <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=600&q=80" alt="{{ producto.nombre }}" class="img-fluid rounded-4 shadow-sm w-100" style="max-height: 400px; object-fit: cover;">
+        </div>
+
+        <!-- Información del producto -->
+        <div class="col-md-6">
+            <span class="badge bg-success mb-2 px-3 py-2">{{ producto.peso }}</span>
+            <h1 class="fw-bold mb-3" style="color: #3B2418;">{{ producto.nombre }}</h1>
+            <h3 class="text-success fw-bold mb-3">${{ "{:,.0f}".format(producto.precio) }} <span class="fs-6 text-muted">COP</span></h3>
+            
+            <p class="text-muted mb-4">{{ producto.descripcion }}</p>
+
+            <ul class="list-unstyled mb-4 text-muted">
+                <li><i class="fa-solid fa-check text-success me-2"></i><strong>Tipo de café:</strong> {{ producto.tipo_cafe }}</li>
+                <li><i class="fa-solid fa-box text-success me-2"></i><strong>Disponibilidad:</strong> {{ producto.stock }} unidades en stock</li>
+            </ul>
+
+            <!-- Formulario para agregar al carrito -->
+            <form action="{{ url_for('shop.agregar_carrito', producto_id=producto.id) }}" method="POST" class="d-flex align-items-center gap-3">
+                <div style="width: 100px;">
+                    <input type="number" name="cantidad" value="1" min="1" max="{{ producto.stock }}" class="form-control text-center">
+                </div>
+                <button type="submit" class="btn btn-cafe btn-lg px-4 flex-grow-1 shadow-sm">
+                    <i class="fa-solid fa-cart-plus me-2"></i> Añadir al Carrito
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
